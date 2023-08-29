@@ -1,24 +1,106 @@
 package com.rch.rch_backend.domain.employPosting.service;
 
-import com.rch.rch_backend.domain.employPosting.dto.ReqEmployPosting;
-import com.rch.rch_backend.domain.employPosting.dto.RespEmployPosting;
+import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
+import com.rch.rch_backend.domain.employPosting.dto.EmployPostingResponseDto;
+import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
+import com.rch.rch_backend.domain.employPosting.repository.EmployPostingRepository;
+import com.rch.rch_backend.domain.user.response.UserInfoDTO;
+import com.rch.rch_backend.domain.user.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.persistence.EntityNotFoundException;
+import java.nio.file.AccessDeniedException;
 
 @Service
 public class EmployPostingServiceImpl implements EmployPositngService {
 
-    @Override
-    public RespEmployPosting.Info createEmployPosting(ReqEmployPosting.Create createDto) {
-        return null;
+    private final EmployPostingRepository employPostingRepository;
+    private final UserService userService;
+
+    public EmployPostingServiceImpl(EmployPostingRepository employPostingRepository, UserService userService) {
+        this.employPostingRepository = employPostingRepository;
+        this.userService = userService;
     }
 
     @Override
-    public RespEmployPosting.Info updateEmployPositng(Long postingId, ReqEmployPosting.Update updatedDto) {
-        return null;
+    public EmployPostingResponseDto createPosting(EmployPostingRequestDto createdDto) {
+        // 인증된 사용자 정보 가져오기
+        UserInfoDTO currentUserInfo = userService.getUserAuthorities();
+
+        if (currentUserInfo == null) {
+            throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
+        }
+
+        EmployPosting employPosting = EmployPosting.builder()
+                .postingName(createdDto.getPostingName())
+                .region(createdDto.getRegion())
+                .jobGroup(createdDto.getJobGroup())
+                .content(createdDto.getContent())
+                .techStack(createdDto.getTechStack())
+                .wage(createdDto.getWage())
+                .deadLine(createdDto.getDeadLine())
+                .build();
+
+        EmployPosting savedPosting = employPostingRepository.save(employPosting);
+
+        return new EmployPostingResponseDto(savedPosting);
     }
 
     @Override
-    public void deletePost(Long postingId) {
+    public EmployPostingResponseDto updatePosting(Long postingId, EmployPostingRequestDto updatedDto) {
+        UserInfoDTO currentUserInfo = userService.getUserAuthorities();
+        // SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+        if(currentUserInfo == null){
+            throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
+        }
+
+        EmployPosting existingPosting = employPostingRepository.findById(postingId)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시물을 찾을 수 없습니다."));
+
+        try{
+            if(!existingPosting.getCompanyUser().getName().equals(currentUserInfo.getName())){
+                throw new AccessDeniedException("해당 게시물을 수정할 권한이 없습니다.");
+            }
+        } catch(AccessDeniedException e){
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.", e);
+        }
+
+        existingPosting.setPostingName(updatedDto.getPostingName());
+        existingPosting.setRegion(updatedDto.getRegion());
+        existingPosting.setJobGroup(updatedDto.getJobGroup());
+        existingPosting.setContent(updatedDto.getContent());
+        existingPosting.setTechStack(updatedDto.getTechStack());
+        existingPosting.setWage(updatedDto.getWage());
+        existingPosting.setDeadLine(updatedDto.getDeadLine());
+        // 체인 연결이 안됨.
+
+        EmployPosting updatedPosting = employPostingRepository.save(existingPosting);
+
+        return new EmployPostingResponseDto(updatedPosting);
+    }
+
+    @Override
+    public void deletePosting(Long postingId) {
+        UserInfoDTO currentUserInfo = userService.getUserAuthorities();
+
+        if (currentUserInfo == null) {
+            throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
+        }
+
+        EmployPosting existingPosting = employPostingRepository.findById(postingId)
+                .orElseThrow(() -> new EntityNotFoundException("해당하는 게시물을 찾을 수 없습니다."));
+
+        try {
+            if (!existingPosting.getCompanyUser().getName().equals(currentUserInfo.getName())) {
+                throw new AccessDeniedException("해당 게시물을 삭제할 권한이 없습니다.");
+            }
+        } catch (AccessDeniedException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.", e);
+        }
+
+        employPostingRepository.delete(existingPosting);
     }
 }
