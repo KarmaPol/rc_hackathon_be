@@ -1,16 +1,15 @@
 
 package com.rch.rch_backend.domain.user.model;
 
+import com.rch.rch_backend.domain.common.BaseEntity;
 import com.sun.istack.NotNull;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-public class User {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +23,4 @@ public class User {
     private String password;
     @Column
     private String phoneNumber;
-
-    @CreatedDate
-    private LocalDateTime createdDate;
-    @LastModifiedDate
-    private LocalDateTime modifiedDate;
-
-    @Column
-    private String status;
 }
