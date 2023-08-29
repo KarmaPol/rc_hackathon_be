@@ -6,14 +6,19 @@ import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
 import com.rch.rch_backend.domain.employPosting.repository.EmployPostingRepository;
 import com.rch.rch_backend.domain.user.response.UserInfoDTO;
 import com.rch.rch_backend.domain.user.service.UserService;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
 import java.nio.file.AccessDeniedException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EmployPostingServiceImpl implements EmployPositngService {
 
     private final EmployPostingRepository employPostingRepository;
@@ -24,6 +29,7 @@ public class EmployPostingServiceImpl implements EmployPositngService {
         this.userService = userService;
     }
 
+
     @Override
     public EmployPostingResponseDto createPosting(EmployPostingRequestDto createdDto) {
         // 인증된 사용자 정보 가져오기
@@ -32,6 +38,25 @@ public class EmployPostingServiceImpl implements EmployPositngService {
         if (currentUserInfo == null) {
             throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
         }
+
+        EmployPosting newPosting = new EmployPosting();
+        newPosting.setPostingName(createdDto.getPostingName());
+        newPosting.setRegion(createdDto.getRegion());
+        newPosting.setJobGroup(createdDto.getJobGroup());
+        newPosting.setContent(createdDto.getContent());
+        newPosting.setTechStack(createdDto.getTechStack());
+        newPosting.setWage(createdDto.getWage());
+        newPosting.setDeadLine(createdDto.getDeadLine());
+
+        User currentUserAccount = currentUserInfo.getUser();
+        newPosting.setCompanyUser(currentUserAccount);
+
+        EmployPosting savedPosting = employPostingRepository.save(newPosting);
+
+        return new EmployPostingResponseDto(savedPosting);
+
+        /*EmployPosting savedPosting = createdDto.toEntity(currentUserInfo.getUser().getName());
+        savedPosting = employPostingRepository.save(savedPosting);
 
         EmployPosting employPosting = EmployPosting.builder()
                 .postingName(createdDto.getPostingName())
@@ -45,7 +70,7 @@ public class EmployPostingServiceImpl implements EmployPositngService {
 
         EmployPosting savedPosting = employPostingRepository.save(employPosting);
 
-        return new EmployPostingResponseDto(savedPosting);
+        return new EmployPostingResponseDto(savedPosting);*/
     }
 
     @Override
@@ -68,7 +93,12 @@ public class EmployPostingServiceImpl implements EmployPositngService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "접근 권한이 없습니다.", e);
         }
 
-        existingPosting.setPostingName(updatedDto.getPostingName());
+        existingPosting.updateFromDto(updatedDto); // 업데이트 메서드 활용
+        EmployPosting updatedPosting = employPostingRepository.save(existingPosting);
+
+        return new EmployPostingResponseDto(updatedPosting);
+
+        /*existingPosting.setPostingName(updatedDto.getPostingName());
         existingPosting.setRegion(updatedDto.getRegion());
         existingPosting.setJobGroup(updatedDto.getJobGroup());
         existingPosting.setContent(updatedDto.getContent());
@@ -79,7 +109,7 @@ public class EmployPostingServiceImpl implements EmployPositngService {
 
         EmployPosting updatedPosting = employPostingRepository.save(existingPosting);
 
-        return new EmployPostingResponseDto(updatedPosting);
+        return new EmployPostingResponseDto(updatedPosting);*/
     }
 
     @Override
@@ -102,5 +132,14 @@ public class EmployPostingServiceImpl implements EmployPositngService {
         }
 
         employPostingRepository.delete(existingPosting);
+    }
+
+    @Override
+    public List<EmployPostingResponseDto> getAllPostings() {
+        List<EmployPosting> employPostings = employPostingRepository.findAll();
+
+        return employPostings.stream()
+                .map(EmployPostingResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

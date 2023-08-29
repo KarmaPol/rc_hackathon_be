@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class EmployPostingController {
 
@@ -33,6 +35,12 @@ public class EmployPostingController {
     public ResponseEntity<Void> deletePosting(@PathVariable Long postingId){
         employPostingService.deletePosting(postingId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<EmployPostingResponseDto>> getAllPostings(){
+        List<EmployPostingResponseDto> responseDtoList = employPostingService.getAllPostings();
+        return ResponseEntity.ok(responseDtoList);
     }
 
 }

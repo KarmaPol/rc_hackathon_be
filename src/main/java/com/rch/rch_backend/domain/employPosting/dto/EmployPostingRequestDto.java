@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class EmployPostingRequestDto {
     private String postingName;
-    private String companyUsername;
     private String region;
     private String jobGroup;
     private String content;
@@ -22,14 +21,26 @@ public class EmployPostingRequestDto {
     private Long wage;
     private LocalDateTime deadLine;
 
-    public EmployPosting toEntity(CompanyUser companyUser){
+    public EmployPostingRequestDto(String postingName, String region, String jobGroup, String content,
+                       String techStack, Long wage, LocalDateTime deadLine) {
+        this.postingName = postingName;
+        this.region = region;
+        this.jobGroup = jobGroup;
+        this.content = content;
+        this.techStack = techStack;
+        this.wage = wage;
+        this.deadLine = deadLine;
+    }
+
+    /*public EmployPosting toEntity(CompanyUser companyUser){
         return EmployPosting.builder()
                 .postingName(this.postingName)
-                .recommender(this.recommender)
-                .resumeFile(this.resumeFile)
-                .applyStatus(ApplyStatus.COMP)
-                .user(user)
-                .employPosting(posting)
+                .region(this.region)
+                .jobGroup(this.jobGroup)
+                .content(this.content)
+                .techStack(this.techStack)
+                .wage(this.wage)
+                .deadLine(this.deadLine)
                 .build();
-    }
+    }*/
 }

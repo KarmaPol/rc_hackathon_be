@@ -1,5 +1,6 @@
 package com.rch.rch_backend.domain.employPosting.model;
 
+import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
 import com.rch.rch_backend.domain.posting_like.PostingLike;
 import com.rch.rch_backend.domain.user.model.CompanyUser;
 import com.rch.rch_backend.domain.user.model.Users;
@@ -14,7 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class EmployPosting {
 
@@ -52,5 +52,28 @@ public class EmployPosting {
     @OneToMany(mappedBy = "employPosting")
     private List<PostingLike> postingLikes;
 
+    @Builder
+    public EmployPosting(Long id, String postingName, String region, String jobGroup, String content, String techStack, Long wage, LocalDateTime deadLine, CompanyUser companyUser, List<PostingLike> postingLikes) {
+        this.id = id;
+        this.postingName = postingName;
+        this.region = region;
+        this.jobGroup = jobGroup;
+        this.content = content;
+        this.techStack = techStack;
+        this.wage = wage;
+        this.deadLine = deadLine;
+        this.companyUser = companyUser;
+        this.postingLikes = postingLikes;
+    }
+
+    public void updateFromDto(EmployPostingRequestDto updatedDto) {
+        this.postingName = updatedDto.getPostingName();
+        this.region = updatedDto.getRegion();
+        this.jobGroup = updatedDto.getJobGroup();
+        this.content = updatedDto.getContent();
+        this.techStack = updatedDto.getTechStack();
+        this.wage = updatedDto.getWage();
+        this.deadLine = updatedDto.getDeadLine();
+    }
 }
 

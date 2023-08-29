@@ -2,9 +2,13 @@ package com.rch.rch_backend.domain.employPosting.dto;
 
 import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+@Getter
+@NoArgsConstructor
 public class EmployPostingResponseDto {
     private String postingName;
     private String companyUsername;
