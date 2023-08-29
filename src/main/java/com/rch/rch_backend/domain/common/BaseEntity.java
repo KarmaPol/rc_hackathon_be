@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+
 @Getter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -22,4 +23,8 @@ public abstract class BaseEntity {
     // 삭제 여부 표시
     @Column
     private String status;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
