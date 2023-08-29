@@ -1,10 +1,13 @@
 
 package com.rch.rch_backend.domain.user.model;
 
+import com.rch.rch_backend.domain.apply.Apply;
 import com.rch.rch_backend.domain.common.BaseEntity;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -23,4 +26,11 @@ public class Users extends BaseEntity {
     private String password;
     @Column
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "users")
+    private List<Apply> applies = new ArrayList<>();
+
+    public void addApply(Apply apply) {
+        this.applies.add(apply);
+    }
 }
