@@ -1,7 +1,7 @@
 
 package com.rch.rch_backend.domain.user.model;
 
-import com.rch.rch_backend.domain.apply.Apply;
+import com.rch.rch_backend.domain.apply.model.Apply;
 import com.rch.rch_backend.domain.common.BaseEntity;
 import com.sun.istack.NotNull;
 
