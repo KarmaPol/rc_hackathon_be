@@ -1,6 +1,7 @@
 
 package com.rch.rch_backend.domain.user.model;
 
+import com.rch.rch_backend.domain.apply.Apply;
 import com.rch.rch_backend.domain.common.BaseEntity;
 import com.sun.istack.NotNull;
 import lombok.Builder;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +30,8 @@ public class Users extends BaseEntity {
     private String password;
     @Column
     private String phoneNumber;
+    @OneToMany(mappedBy = "users")
+    private List<Apply> applies = new ArrayList<>();
 
     public Users(String name, String email, String password, String phoneNumber) {
         this.name = name;
@@ -39,10 +44,14 @@ public class Users extends BaseEntity {
 
     }
 
-    public void changeUserInfo(String name, String email, String password, String phoneNumber){
+    public void changeUserInfo(String name, String email, String password, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+    public void addApply(Apply apply) {
+        this.applies.add(apply);
     }
 }
