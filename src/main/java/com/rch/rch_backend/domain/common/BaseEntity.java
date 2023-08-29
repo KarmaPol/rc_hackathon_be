@@ -1,5 +1,7 @@
 package com.rch.rch_backend.domain.common;
 
+import lombok.Builder;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -18,4 +20,8 @@ public abstract class BaseEntity {
     // 삭제 여부 표시
     @Column
     private String status;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
