@@ -15,7 +15,7 @@ public class Apply extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "applyId")
+    @Column(name = "apply_id")
     private Long applyId;
     private String phoneNumber;
     private String recommender;
@@ -25,7 +25,7 @@ public class Apply extends BaseEntity {
     private ApplyStatus applyStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private Users user;
 
     @ManyToOne(fetch = FetchType.LAZY)

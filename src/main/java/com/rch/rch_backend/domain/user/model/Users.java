@@ -30,7 +30,7 @@ public class Users extends BaseEntity {
     private String password;
     @Column
     private String phoneNumber;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<Apply> applies = new ArrayList<>();
 
     public Users(String name, String email, String password, String phoneNumber) {
