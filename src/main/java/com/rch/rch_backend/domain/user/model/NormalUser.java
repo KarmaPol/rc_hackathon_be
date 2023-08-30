@@ -1,0 +1,19 @@
+package com.rch.rch_backend.domain.user.model;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+
+@Getter
+@Entity
+@NoArgsConstructor
+public class NormalUser extends Users
+{
+
+    @Builder
+    public NormalUser(String name, String email, String password, String phoneNumber) {
+        super(name, email, password, phoneNumber);
+    }
+}
