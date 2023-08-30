@@ -10,6 +10,7 @@ import com.rch.rch_backend.domain.employPosting.repository.EmployPostingReposito
 import com.rch.rch_backend.domain.user.model.Users;
 import com.rch.rch_backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +27,7 @@ public class ApplyService {
     private final EmployPostingRepository employPostingRepository;
 
     public Long save(Long employPostingId, ApplySaveRequestDto requestDto) {
-        Users user = (Users) null; // 이거 스프링 시큐리티에서 받아와야 함
+        Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         EmployPosting posting = employPostingRepository.findById(employPostingId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공고입니다."));
@@ -48,7 +49,7 @@ public class ApplyService {
     }
 
     public List<ApplyListResponseDto> findApplies() {
-        Users user = (Users) null; // 스프링 시큐리티에서 받아와야 함
+        Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return applyRepository.findAllByUsers(user)
                 .stream().map(ApplyListResponseDto::new)
                 .collect(Collectors.toList());

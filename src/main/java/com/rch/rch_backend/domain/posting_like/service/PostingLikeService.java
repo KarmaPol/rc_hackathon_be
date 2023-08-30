@@ -6,6 +6,7 @@ import com.rch.rch_backend.domain.posting_like.model.PostingLike;
 import com.rch.rch_backend.domain.posting_like.repository.PostingLikeRepository;
 import com.rch.rch_backend.domain.user.model.Users;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,7 @@ public class PostingLikeService {
 
     public void like(Long postId) {
         EmployPosting posting = validatePosting(postId);
-        Users user = (Users) null;
+        Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         PostingLike like = PostingLike.builder()
                 .employPosting(posting)
@@ -30,7 +31,7 @@ public class PostingLikeService {
 
     public void unlike(Long postId) {
         EmployPosting posting = validatePosting(postId);
-        Users user = (Users) null;
+        Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         PostingLike like = postingLikeRepository.findByEmployPostingAndUser(posting, user)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 좋아요입니다."));
