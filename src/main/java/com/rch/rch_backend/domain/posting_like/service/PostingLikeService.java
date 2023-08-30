@@ -18,6 +18,7 @@ public class PostingLikeService {
     private final PostingLikeRepository postingLikeRepository;
     private final EmployPostingRepository employPostingRepository;
 
+    @Transactional
     public void like(Long postId) {
         EmployPosting posting = validatePosting(postId);
         Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -29,6 +30,7 @@ public class PostingLikeService {
         postingLikeRepository.save(like);
     }
 
+    @Transactional
     public void unlike(Long postId) {
         EmployPosting posting = validatePosting(postId);
         Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

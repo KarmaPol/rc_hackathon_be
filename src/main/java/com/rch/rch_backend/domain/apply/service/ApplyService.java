@@ -26,6 +26,7 @@ public class ApplyService {
     private final ApplyRepository applyRepository;
     private final EmployPostingRepository employPostingRepository;
 
+    @Transactional
     public Long save(Long employPostingId, ApplySaveRequestDto requestDto) {
         Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -41,6 +42,7 @@ public class ApplyService {
         return apply.getApplyId();
     }
 
+    @Transactional
     public void cancel(Long applyId) {
         Apply apply = applyRepository.findById(applyId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 지원입니다."));
