@@ -32,7 +32,7 @@ public class ApplyService {
         EmployPosting posting = employPostingRepository.findById(employPostingId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공고입니다."));
 
-        applyRepository.findByUsers(user)
+        applyRepository.findByUser(user)
                 .ifPresent(a -> new IllegalArgumentException("이미 지원한 공고입니다."));
 
         Apply apply = requestDto.toEntity(user, posting);
@@ -50,7 +50,7 @@ public class ApplyService {
 
     public List<ApplyListResponseDto> findApplies() {
         Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return applyRepository.findAllByUsers(user)
+        return applyRepository.findAllByUser(user)
                 .stream().map(ApplyListResponseDto::new)
                 .collect(Collectors.toList());
     }
