@@ -17,7 +17,7 @@ import java.util.List;
 public class EmployPosting {
 
     @Id
-    @Column(name = "posting-id")
+    @Column(name = "posting_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
