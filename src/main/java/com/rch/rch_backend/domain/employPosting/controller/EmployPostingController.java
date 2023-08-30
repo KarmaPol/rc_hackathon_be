@@ -51,7 +51,7 @@ public class EmployPostingController {
     }
 
     @GetMapping("{postingId}")
-    @ApiOperation(value = "채용포스팅 전체 조회", notes = "특정 채용포스팅을 조회한다.")
+    @ApiOperation(value = "특정 채용포스팅 조회", notes = "특정 채용포스팅을 조회한다.")
     public ResponseEntity<EmployPostingResponseDto> getPostingById(@PathVariable Long postingId){
         EmployPostingResponseDto responseDto = employPostingService.getEmployPostingById(postingId);
         return ResponseEntity.ok(responseDto);
