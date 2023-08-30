@@ -42,5 +42,4 @@ public class EmployPostingController {
         List<EmployPostingResponseDto> responseDtoList = employPostingService.getAllPostings();
         return ResponseEntity.ok(responseDtoList);
     }
-
 }

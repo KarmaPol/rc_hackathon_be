@@ -1,7 +1,7 @@
 package com.rch.rch_backend.domain.employPosting.model;
 
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
-import com.rch.rch_backend.domain.posting_like.PostingLike;
+import com.rch.rch_backend.domain.posting_like.model.PostingLike;
 import com.rch.rch_backend.domain.user.model.CompanyUser;
 import com.rch.rch_backend.domain.user.model.Users;
 import lombok.*;
