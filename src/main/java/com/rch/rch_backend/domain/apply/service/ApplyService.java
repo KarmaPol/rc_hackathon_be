@@ -37,7 +37,7 @@ public class ApplyService {
         Apply apply = requestDto.toEntity(user, posting);
         user.addApply(apply);
 
-        return apply.getId();
+        return apply.getApplyId();
     }
 
     public void cancel(Long applyId) {
