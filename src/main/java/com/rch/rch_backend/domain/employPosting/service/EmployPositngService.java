@@ -8,6 +8,7 @@ import java.util.List;
 public interface EmployPositngService {
 
     List<EmployPostingResponseDto> getAllPostings();
+    EmployPostingResponseDto getEmployPostingById(Long postingId);
     EmployPostingResponseDto createPosting(EmployPostingRequestDto createDto);
     EmployPostingResponseDto updatePosting(Long postingId, EmployPostingRequestDto updatedDto);
     void deletePosting(Long postingId);

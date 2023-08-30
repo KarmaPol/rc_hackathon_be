@@ -3,23 +3,21 @@ package com.rch.rch_backend.domain.employPosting.model;
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
 import com.rch.rch_backend.domain.posting_like.model.PostingLike;
 import com.rch.rch_backend.domain.user.model.CompanyUser;
-import com.rch.rch_backend.domain.user.model.Users;
 import lombok.*;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
 public class EmployPosting {
 
     @Id
-    @Column(name = "postingId")
+    @Column(name = "posting-id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -50,7 +48,7 @@ public class EmployPosting {
     private CompanyUser companyUser;
 
     @OneToMany(mappedBy = "employPosting")
-    private List<PostingLike> postingLikes;
+    private Collection<PostingLike> postingLikes;
 
     @Builder
     public EmployPosting(Long id, String postingName, String region, String jobGroup, String content, String techStack, Long wage, LocalDateTime deadLine, CompanyUser companyUser, List<PostingLike> postingLikes) {
