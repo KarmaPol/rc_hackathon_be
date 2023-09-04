@@ -1,5 +1,6 @@
 package com.rch.rch_backend.domain.employPosting.model;
 
+import com.rch.rch_backend.domain.common.BaseEntity;
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
 import com.rch.rch_backend.domain.posting_like.model.PostingLike;
 import com.rch.rch_backend.domain.user.model.CompanyUser;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class EmployPosting {
+public class EmployPosting extends BaseEntity {
 
     @Id
     @Column(name = "posting_id")
