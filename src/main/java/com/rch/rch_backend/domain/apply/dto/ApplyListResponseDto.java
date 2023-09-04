@@ -2,9 +2,11 @@ package com.rch.rch_backend.domain.apply.dto;
 
 import com.rch.rch_backend.domain.apply.model.Apply;
 import com.rch.rch_backend.domain.apply.model.ApplyStatus;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public class ApplyListResponseDto {
     private String postingName;
     private LocalDateTime cratedDate;

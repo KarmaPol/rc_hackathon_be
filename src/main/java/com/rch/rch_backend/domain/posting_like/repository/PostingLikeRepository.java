@@ -5,10 +5,11 @@ import com.rch.rch_backend.domain.posting_like.model.PostingLike;
 import com.rch.rch_backend.domain.user.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PostingLikeRepository extends JpaRepository<PostingLike, Long> {
     Optional<PostingLike> findByEmployPostingAndUser(EmployPosting employPosting, Users users);
-
+    List<PostingLike> findAllByEmployPosting(EmployPosting employPosting);
     int countByEmployPosting(EmployPosting employPosting);
 }
