@@ -21,7 +21,6 @@ public class EmployPostingController {
         this.employPostingService = employPostingService;
     }
 
-
     @PostMapping("")
     @ApiOperation(value = "기업유저 채용포스팅 생성", notes = "기업 유저용 채용포스팅을 생성한다.")
     public ResponseEntity<EmployPostingResponseDto> createPosting(@RequestBody EmployPostingRequestDto requestDto){
@@ -50,11 +49,10 @@ public class EmployPostingController {
         return ResponseEntity.ok(responseDtoList);
     }
 
-    @GetMapping("{postingId}")
+    @GetMapping("/{postingId}")
     @ApiOperation(value = "특정 채용포스팅 조회", notes = "특정 채용포스팅을 조회한다.")
     public ResponseEntity<EmployPostingResponseDto> getPostingById(@PathVariable Long postingId){
         EmployPostingResponseDto responseDto = employPostingService.getEmployPostingById(postingId);
         return ResponseEntity.ok(responseDto);
     }
-
 }

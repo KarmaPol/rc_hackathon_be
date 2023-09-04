@@ -9,6 +9,7 @@ import com.rch.rch_backend.domain.user.request.UserFixDTO;
 import com.rch.rch_backend.domain.user.response.UserInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,15 +19,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void register(SignupDTO signup) {
-        NormalUser signupUser = NormalUser.builder().name(signup.getName()).email(signup.getEmail()).password(signup.getPassword()).phoneNumber(signup.getPhoneNumber()).build();
+        String normalPw = signup.getPassword();
+        String encodedPw = passwordEncoder.encode(normalPw);
+
+        NormalUser signupUser = NormalUser.builder().name(signup.getName()).email(signup.getEmail()).password(encodedPw).phoneNumber(signup.getPhoneNumber()).build();
 
         userRepository.save(signupUser);
     }
 
     public void companyRegister(SignupDTO signup) {
-        CompanyUser signupUser = CompanyUser.builder().name(signup.getName()).email(signup.getEmail()).password(signup.getPassword()).phoneNumber(signup.getPhoneNumber()).build();
+        String normalPw = signup.getPassword();
+        String encodedPw = passwordEncoder.encode(normalPw);
+
+        CompanyUser signupUser = CompanyUser.builder().name(signup.getName()).email(signup.getEmail()).password(encodedPw).phoneNumber(signup.getPhoneNumber()).build();
 
         userRepository.save(signupUser);
     }
@@ -40,7 +48,7 @@ public class UserService {
     public UserInfoDTO getUserInfo(Long userID) {
         Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저"));
 
-        UserInfoDTO userInfo = UserInfoDTO.builder().name(findUser.getName()).email(findUser.getEmail()).password(findUser.getPassword()).phoneNumber(findUser.getPhoneNumber()).build();
+        UserInfoDTO userInfo = UserInfoDTO.builder().name(findUser.getName()).email(findUser.getEmail()).phoneNumber(findUser.getPhoneNumber()).build();
 
         return userInfo;
     }

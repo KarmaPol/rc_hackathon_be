@@ -7,7 +7,13 @@ import com.rch.rch_backend.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @Api(tags = "유저 컨트롤러")
 @RestController
@@ -42,6 +48,16 @@ public class UserController {
     @ApiOperation(value = "회원 정보 수정", notes = "회원 정보를 수정한다.")
     public void fixUserInfo(@RequestBody UserFixDTO userFixDTO, @PathVariable Long userID){
         userService.fixUserInfo(userFixDTO, userID);
+    }
+
+    // Authorize, UserDetails 사용 예시
+    @PreAuthorize("hasRole('COMPANYUSER')")
+    @GetMapping("/foo")
+    public String foo(@AuthenticationPrincipal UserDetails userDetails){
+        String username = userDetails.getUsername();
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+
+        return "foo";
     }
 
     // 회원 정보 조회
