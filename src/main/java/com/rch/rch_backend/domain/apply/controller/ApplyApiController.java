@@ -20,7 +20,7 @@ public class ApplyApiController {
 
     private final ApplyService applyService;
 
-    @PostMapping("/postings/{posting-id}/applies")
+    @PostMapping("/posts/{posting-id}/applies")
     @ApiOperation(value = "일반 유저 채용 지원", notes = "일반 유저가 채용 정보에 대한 지원을 수행한다.")
     public ResponseEntity<Void> register(@RequestBody ApplySaveRequestDto requestDto,
                                    @PathVariable(name = "posting-id") Long postingId) {
@@ -31,7 +31,7 @@ public class ApplyApiController {
                 .build();
     }
 
-    @PutMapping("/postings/{posting-id}/applies/{apply-id}")
+    @PutMapping("/posts/{posting-id}/applies/{apply-id}")
     @ApiOperation(value = "일반 유저 채용 지원 취소", notes = "일반 유저가 채용 정보에 대한 지원을 취소한다.")
     public ResponseEntity<Void> deregister(@PathVariable(name = "apply-id") Long applyId) {
 

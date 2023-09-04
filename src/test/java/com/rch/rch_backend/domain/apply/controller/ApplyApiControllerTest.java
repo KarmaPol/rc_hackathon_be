@@ -71,7 +71,7 @@ class ApplyApiControllerTest {
     @Test
     void register() throws Exception {
         // Given
-        String url = "/api/v1/postings/{posting-id}/applies";
+        String url = "/api/v1/posts/{posting-id}/applies";
         ApplySaveRequestDto requestDto = ApplySaveRequestDto.builder()
                 .phoneNumber("phoneNumber").build();
 
@@ -94,7 +94,7 @@ class ApplyApiControllerTest {
     @Test
     void deregister() throws Exception {
         // Given
-        String url = "/api/v1/postings/1/applies/1";
+        String url = "/api/v1/posts/1/applies/1";
         createDefaultApply();
 
         // When
