@@ -7,6 +7,7 @@ import com.rch.rch_backend.domain.employPosting.repository.EmployPostingReposito
 import com.rch.rch_backend.domain.user.model.Users;
 import com.rch.rch_backend.domain.user.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,32 +34,23 @@ public class EmployPostingServiceImpl implements EmployPositngService {
     @Override
     public EmployPostingResponseDto createPosting(EmployPostingRequestDto createdDto) {
         // 인증된 사용자 정보 가져오기
-        Users currentUserInfo = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication currentUserInfo = SecurityContextHolder.getContext().getAuthentication();
 
         if (currentUserInfo == null) {
             throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
         }
 
-        EmployPosting newPosting = new EmployPosting();
-        newPosting.setPostingName(createdDto.getPostingName());
-        newPosting.setRegion(createdDto.getRegion());
-        newPosting.setJobGroup(createdDto.getJobGroup());
-        newPosting.setContent(createdDto.getContent());
-        newPosting.setTechStack(createdDto.getTechStack());
-        newPosting.setWage(createdDto.getWage());
-        newPosting.setDeadLine(createdDto.getDeadLine());
+        /*String currentUsername = currentUserInfo.getName();
+        UserDetails userDetails = userService.loadUserByUsername(currentUsername);
 
-        /*User currentUserAccount = currentUserInfo.getName();
-        newPosting.setCompanyUser(currentUserAccount);*/
+        if (userDetails == null) {
+            throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
+        }
 
-        EmployPosting savedPosting = employPostingRepository.save(newPosting);
+        User currentUser = new User(userDetails);*/
 
-        return new EmployPostingResponseDto(savedPosting);
 
-        /*EmployPosting savedPosting = createdDto.toEntity(currentUserInfo.getUser().getName());
-        savedPosting = employPostingRepository.save(savedPosting);
-
-        EmployPosting employPosting = EmployPosting.builder()
+        EmployPosting newPosting = EmployPosting.builder()
                 .postingName(createdDto.getPostingName())
                 .region(createdDto.getRegion())
                 .jobGroup(createdDto.getJobGroup())
@@ -66,16 +58,26 @@ public class EmployPostingServiceImpl implements EmployPositngService {
                 .techStack(createdDto.getTechStack())
                 .wage(createdDto.getWage())
                 .deadLine(createdDto.getDeadLine())
+                //.user(currentUser)
                 .build();
 
-        EmployPosting savedPosting = employPostingRepository.save(employPosting);
+        EmployPosting savedPosting = employPostingRepository.save(newPosting);
 
-        return new EmployPostingResponseDto(savedPosting);*/
+        return EmployPostingResponseDto.builder()
+                .postingName(savedPosting.getPostingName())
+                .region(savedPosting.getRegion())
+                .jobGroup(savedPosting.getJobGroup())
+                .content(savedPosting.getContent())
+                .techStack(savedPosting.getTechStack())
+                .wage(savedPosting.getWage())
+                .deadLine(savedPosting.getDeadLine())
+                //.Username(savedPosting.getUser().getUsername())
+                .build();
     }
 
     @Override
     public EmployPostingResponseDto updatePosting(Long postingId, EmployPostingRequestDto updatedDto) {
-        Users currentUserInfo = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication currentUserInfo = SecurityContextHolder.getContext().getAuthentication();
         // SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if(currentUserInfo == null){
@@ -94,22 +96,18 @@ public class EmployPostingServiceImpl implements EmployPositngService {
         }
 
         existingPosting.updateFromDto(updatedDto); // 업데이트 메서드 활용
-        EmployPosting updatedPosting = employPostingRepository.save(existingPosting);
-
-        return new EmployPostingResponseDto(updatedPosting);
-
-        /*existingPosting.setPostingName(updatedDto.getPostingName());
-        existingPosting.setRegion(updatedDto.getRegion());
-        existingPosting.setJobGroup(updatedDto.getJobGroup());
-        existingPosting.setContent(updatedDto.getContent());
-        existingPosting.setTechStack(updatedDto.getTechStack());
-        existingPosting.setWage(updatedDto.getWage());
-        existingPosting.setDeadLine(updatedDto.getDeadLine());
-        // 체인 연결이 안됨.
 
         EmployPosting updatedPosting = employPostingRepository.save(existingPosting);
 
-        return new EmployPostingResponseDto(updatedPosting);*/
+        return EmployPostingResponseDto.builder()
+                .postingName(updatedPosting.getPostingName())
+                .region(updatedPosting.getRegion())
+                .jobGroup(updatedPosting.getJobGroup())
+                .content(updatedPosting.getContent())
+                .techStack(updatedPosting.getTechStack())
+                .wage(updatedPosting.getWage())
+                .deadLine(updatedPosting.getDeadLine())
+                .build();
     }
 
     @Override

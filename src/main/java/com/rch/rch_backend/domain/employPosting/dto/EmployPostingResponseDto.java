@@ -1,17 +1,19 @@
 package com.rch.rch_backend.domain.employPosting.dto;
 
 import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+
+@Data
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class EmployPostingResponseDto {
     private String postingName;
-    private String companyUsername;
+    private String Username;
     private String region;
     private String jobGroup;
     private String content;
@@ -19,10 +21,10 @@ public class EmployPostingResponseDto {
     private Long wage;
     private LocalDateTime deadLine;
 
-    @Builder
-    public EmployPostingResponseDto(EmployPosting employPosting){
+
+    public EmployPostingResponseDto(EmployPosting employPosting) {
         this.postingName = employPosting.getPostingName();
-        this.companyUsername = employPosting.getCompanyUser().getName();
+        // this.Username = employPosting.getUser().getUsername();
         this.region = employPosting.getRegion();
         this.jobGroup = employPosting.getJobGroup();
         this.content = employPosting.getContent();
@@ -30,6 +32,4 @@ public class EmployPostingResponseDto {
         this.wage = employPosting.getWage();
         this.deadLine = employPosting.getDeadLine();
     }
-
-
 }
