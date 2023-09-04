@@ -30,6 +30,9 @@ public class Users extends BaseEntity {
     private String password;
     @Column
     private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    UserRoles userRoles;
+
     @OneToMany(mappedBy = "user")
     private List<Apply> applies = new ArrayList<>();
 

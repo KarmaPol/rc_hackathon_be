@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "유저 컨트롤러")
 @RestController
-@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -25,7 +24,7 @@ public class UserController {
     }
 
     // 회사 회원가입
-    @PostMapping("/users/sign-up/company")
+    @PostMapping("/users/companies/sign-up")
     @ApiOperation(value = "회사 유저 회원가입", notes = "회사 유저용 회원가입을 한다.")
     public void companyRegister(@RequestBody SignupDTO signup){
         userService.companyRegister(signup);
