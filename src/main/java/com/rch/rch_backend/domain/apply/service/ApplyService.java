@@ -30,7 +30,7 @@ public class ApplyService {
     // TODO: 테스트용. 스프링 시큐리티 부분이 완성되면 모킹 객체를 없애야
     private final UserRepository userRepository;
     NormalUser user;
-    public Users forTest() {
+    public NormalUser forTest() {
         return userRepository.save(NormalUser.builder()
                 .email("email@email.com")
                 .name("name")
@@ -42,7 +42,8 @@ public class ApplyService {
     @Transactional
     public Long save(Long employPostingId, ApplySaveRequestDto requestDto) {
         //Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+        // TODO: 테스트용. 스프링 시큐리티 부분이 완성되면 모킹 객체를 없애야
+        user = forTest();
 
         EmployPosting posting = employPostingRepository.findById(employPostingId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공고입니다."));
@@ -51,6 +52,7 @@ public class ApplyService {
                 .ifPresent(a -> new IllegalArgumentException("이미 지원한 공고입니다."));
 
         Apply apply = requestDto.toEntity(user, posting);
+        applyRepository.save(apply);
         user.addApply(apply);
 
         return apply.getApplyId();
@@ -66,6 +68,9 @@ public class ApplyService {
 
     public List<ApplyListResponseDto> findApplies() {
         // Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        // TODO: 테스트용. 스프링 시큐리티 부분이 완성되면 모킹 객체를 없애야
+        user = forTest();
+
         return applyRepository.findAllByUser(user)
                 .stream().map(ApplyListResponseDto::new)
                 .collect(Collectors.toList());

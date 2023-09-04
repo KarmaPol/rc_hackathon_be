@@ -39,9 +39,6 @@ class PostingLikeApiControllerTest {
     PostingLikeRepository postingLikeRepository;
 
     @Autowired
-    ApplyRepository applyRepository;
-
-    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -54,7 +51,8 @@ class PostingLikeApiControllerTest {
     @BeforeEach
     void setMockMvc() {
         postingLikeRepository.deleteAll();
-        applyRepository.deleteAll();
+        employPostingRepository.deleteAll();
+        userRepository.deleteAll();
 
         defaultPosting = employPostingRepository.save(
                 EmployPosting.builder()
@@ -87,7 +85,7 @@ class PostingLikeApiControllerTest {
         List<PostingLike> all = postingLikeRepository.findAll();
 
         assertThat(all.size()).isEqualTo(1);
-        assertThat(all.get(0).getId()).isEqualTo(postingId);
+        assertThat(all.get(0).getId()).isEqualTo(1L);
     }
 
     @Test
