@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Getter
 @Entity
@@ -15,5 +17,6 @@ public class NormalUser extends Users
     @Builder
     public NormalUser(String name, String email, String password, String phoneNumber) {
         super(name, email, password, phoneNumber);
+        this.userRoles = UserRoles.ROLE_NORMALUSER;
     }
 }
