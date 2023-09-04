@@ -21,3 +21,6 @@ VALUES
     ('Content Teamleader', 'Busan', 'Education', '주요업무 - 학습 콘텐츠 전략 수립 및 실행. TOEFL & IELTS 시험 관련 모의고사, 연습문제, 영상강의, 추가 학습 자료 등 콘텐츠 기획', 'TOEFL', 2000000, '2023-09-09 12:00:00'),
 
     ('Tech Leader', 'Seoul', 'Development', '주요업무 - 인프라 관리 및 운영', 'Docker', 3000000, '2023-09-10 12:00:00');
+
+INSERT INTO USERS (
+DTYPE, USER_ID, EMAIL, PASSWORD, USER_ROLES) values ('NormalUser', 9999999, 'admin', '$2a$10$FF.wng7H3/bSzyZtJCYnPeSQwMyvT22NGnV2FMnPnl8DFTObVg1xm', 'ROLE_ADMIN');

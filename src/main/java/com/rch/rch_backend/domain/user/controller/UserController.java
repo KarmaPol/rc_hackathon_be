@@ -51,8 +51,9 @@ public class UserController {
     }
 
     // Authorize, UserDetails 사용 예시
-    @PreAuthorize("hasRole('COMPANYUSER')")
+    @PreAuthorize("hasAnyRole('COMPANYUSER', 'ADMIN')")
     @GetMapping("/foo")
+    @ApiOperation(value = "Authorize, UserDetails 사용 예시")
     public String foo(@AuthenticationPrincipal UserDetails userDetails){
         String username = userDetails.getUsername();
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
