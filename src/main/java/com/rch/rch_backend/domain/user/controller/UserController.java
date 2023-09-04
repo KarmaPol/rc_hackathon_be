@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "유저 컨트롤러")
 @RestController
-@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class UserController {
 

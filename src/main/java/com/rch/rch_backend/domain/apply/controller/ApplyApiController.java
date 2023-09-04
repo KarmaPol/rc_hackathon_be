@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(tags = "지원 API 컨트롤러")
-@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @RestController
 public class ApplyApiController {

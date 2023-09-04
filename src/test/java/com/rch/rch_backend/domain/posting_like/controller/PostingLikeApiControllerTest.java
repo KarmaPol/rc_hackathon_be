@@ -69,7 +69,7 @@ class PostingLikeApiControllerTest {
     @Test
     void like() throws Exception {
         // Given
-        String url = "/api/v1/posts/1/likes";
+        String url = "/posts/1/likes";
 
         // Principal principal = Mockito.mock(Principal.class);
         // Mockito.when(principal.getName()).thenReturn("name");
@@ -91,7 +91,7 @@ class PostingLikeApiControllerTest {
     @Test
     void unlike() throws Exception {
         // Given
-        String url = "/api/v1/posts/1/likes";
+        String url = "/posts/1/likes";
         createDefaultPostingLike();
 
         // When
@@ -107,7 +107,7 @@ class PostingLikeApiControllerTest {
     @Test
     void viewLikes() throws Exception {
         // Given
-        String url = "/api/v1/posts/1/likes";
+        String url = "/posts/1/likes";
         createDefaultPostingLike();
 
         // When
@@ -120,7 +120,7 @@ class PostingLikeApiControllerTest {
     @Test
     void viewLikeUsers() throws Exception {
         // Given
-        String url = "/api/v1/posts/1/likes/users";
+        String url = "/posts/1/likes/users";
         Users user = userRepository.save(NormalUser.builder()
                 .email("email@email.com")
                 .name("name")

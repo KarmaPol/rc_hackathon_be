@@ -13,7 +13,7 @@ import java.util.List;
 
 @Api(tags = "채용 정보 좋아요 API 컨트롤러")
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/posts/{posting-id}/likes")
+@RequestMapping("/posts/{posting-id}/likes")
 @RestController
 public class PostingLikeApiController {
 

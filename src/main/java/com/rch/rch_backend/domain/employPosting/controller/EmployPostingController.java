@@ -12,7 +12,7 @@ import java.util.List;
 
 @Api(tags = "채용포스팅 컨트롤러")
 @RestController
-@RequestMapping("/api/v1/posts")
+@RequestMapping("/posts")
 public class EmployPostingController {
 
     private final EmployPostingServiceImpl employPostingService;
