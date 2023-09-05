@@ -4,8 +4,12 @@ import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingResponseDto;
 import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
 import com.rch.rch_backend.domain.employPosting.repository.EmployPostingRepository;
+import com.rch.rch_backend.domain.user.model.CompanyUser;
+import com.rch.rch_backend.domain.user.model.NormalUser;
 import com.rch.rch_backend.domain.user.model.Users;
+import com.rch.rch_backend.domain.user.repository.UserRepository;
 import com.rch.rch_backend.domain.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,18 +27,32 @@ import java.util.stream.Collectors;
 public class EmployPostingServiceImpl implements EmployPositngService {
 
     private final EmployPostingRepository employPostingRepository;
-    private final UserService userService;
+    private final UserRepository userRepository;
 
-    public EmployPostingServiceImpl(EmployPostingRepository employPostingRepository, UserService userService) {
+    @Autowired
+    public EmployPostingServiceImpl(EmployPostingRepository employPostingRepository, UserRepository userRepository) {
         this.employPostingRepository = employPostingRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
     }
+
+
+    /*CompanyUser currentUserInfo;
+    public CompanyUser forTest() {
+        return userRepository.save(CompanyUser.builder()
+                .email("email@email.com")
+                .name("name")
+                .password("password")
+                .phoneNumber("phoneNumber")
+                .build());
+    }*/
 
 
     @Override
     public EmployPostingResponseDto createPosting(EmployPostingRequestDto createdDto) {
         // 인증된 사용자 정보 가져오기
         Authentication currentUserInfo = SecurityContextHolder.getContext().getAuthentication();
+
+        // currentUserInfo = forTest();
 
         if (currentUserInfo == null) {
             throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
@@ -78,7 +96,8 @@ public class EmployPostingServiceImpl implements EmployPositngService {
     @Override
     public EmployPostingResponseDto updatePosting(Long postingId, EmployPostingRequestDto updatedDto) {
         Authentication currentUserInfo = SecurityContextHolder.getContext().getAuthentication();
-        // SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // currentUserInfo = forTest();
 
         if(currentUserInfo == null){
             throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
@@ -112,7 +131,9 @@ public class EmployPostingServiceImpl implements EmployPositngService {
 
     @Override
     public void deletePosting(Long postingId) {
-        Users currentUserInfo = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication currentUserInfo = SecurityContextHolder.getContext().getAuthentication();
+
+        // currentUserInfo = forTest();
 
         if (currentUserInfo == null) {
             throw new RuntimeException("현재 사용자 정보를 가져올 수 없습니다.");
