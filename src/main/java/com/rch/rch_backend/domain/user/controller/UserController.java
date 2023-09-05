@@ -1,10 +1,13 @@
 package com.rch.rch_backend.domain.user.controller;
 
+import com.rch.rch_backend.domain.user.request.SigninDTO;
 import com.rch.rch_backend.domain.user.request.SignupDTO;
 import com.rch.rch_backend.domain.user.request.UserFixDTO;
 import com.rch.rch_backend.domain.user.response.UserInfoDTO;
 import com.rch.rch_backend.domain.user.service.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,11 +39,36 @@ public class UserController {
         userService.companyRegister(signup);
     }
 
-    // 로그인
+    // 로그인 (swagger 명세용)
     @PostMapping("/users/sign-in")
-    @ApiOperation(value = "로그인", notes = "로그인을 한다.")
-    public void login(){
-        // todo 스프링 시큐리티 로그인
+    @ApiImplicitParams(
+    {
+        @ApiImplicitParam(
+                name = "username"
+                , value = "유저 이메일"
+                , required = true
+                , dataType = "string"
+                , paramType = "query"
+        )
+        ,
+        @ApiImplicitParam(
+                name = "password"
+                , value = "유저 패스워드"
+                , required = true
+                , dataType = "string"
+                , paramType = "query"
+        )
+    })
+    @ApiOperation(value = "로그인", notes = "로그인을 한다. 이때 request는 form data로 보내야 한다.")
+    public void login(SigninDTO signinDTO){
+        // 스프링 시큐리티 로그인
+    }
+
+    // 로그아웃 (swagger 명세용)
+    @GetMapping("/users/sign-out")
+    @ApiOperation(value = "로그아웃", notes = "로그아웃을 한다.")
+    public void logout(){
+        // 스프링 시큐리티 로그인
     }
 
     // 회원 정보 수정
