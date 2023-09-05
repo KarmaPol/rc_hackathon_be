@@ -5,6 +5,7 @@ import com.rch.rch_backend.domain.employPosting.dto.EmployPostingResponseDto;
 import com.rch.rch_backend.domain.employPosting.service.EmployPostingServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +23,11 @@ public class EmployPostingController {
     }
 
     @PostMapping("")
+    @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "기업유저 채용포스팅 생성", notes = "기업 유저용 채용포스팅을 생성한다.")
     public ResponseEntity<EmployPostingResponseDto> createPosting(@RequestBody EmployPostingRequestDto requestDto){
         EmployPostingResponseDto responseDto = employPostingService.createPosting(requestDto);
-        return ResponseEntity.ok(responseDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
     }
 
     @PatchMapping("/{postingId}")
