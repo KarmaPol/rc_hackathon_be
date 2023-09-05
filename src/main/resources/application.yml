@@ -23,6 +23,6 @@ spring:
       data-locations: classpath*:db/data.sql
       mode: always
       platform: h2
-logging:
-  level:
-    org.springframework.security: DEBUG
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
