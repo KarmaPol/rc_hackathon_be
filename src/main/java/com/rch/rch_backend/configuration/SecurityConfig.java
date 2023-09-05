@@ -74,7 +74,7 @@ public class SecurityConfig {
                         })))
                 .exceptionHandling(e -> {
                         e.accessDeniedHandler(new Http403Handler(new ObjectMapper()));
-                        e.authenticationEntryPoint(new Http401Handler(new ObjectMapper()));
+//                        e.authenticationEntryPoint(new Http401Handler(new ObjectMapper()));
                     }
                 )
         ;
