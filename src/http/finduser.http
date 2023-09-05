@@ -1,1 +1,1 @@
-GET http://localhost:8080/users/kim2@test.com
+GET http://localhost:8080/users/userinfo?useremail=kim@test.com
