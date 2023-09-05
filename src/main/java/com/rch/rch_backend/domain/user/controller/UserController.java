@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 
 @Api(tags = "유저 컨트롤러")
@@ -28,15 +29,30 @@ public class UserController {
     // 일반 회원가입
     @PostMapping("/users/sign-up")
     @ApiOperation(value = "일반 유저 회원가입", notes = "일반 유저용 회원가입을 한다.")
-    public void register(@RequestBody SignupDTO signup){
+    @ApiImplicitParam(
+            name = "username"
+            , value = "유저 이메일"
+            , required = true
+            , dataType = "string"
+            , paramType = "query"
+    )
+    public void register(@Valid @RequestBody SignupDTO signup){
         userService.register(signup);
     }
 
     // 회사 회원가입
     @PostMapping("/users/companies/sign-up")
     @ApiOperation(value = "회사 유저 회원가입", notes = "회사 유저용 회원가입을 한다.")
-    public void companyRegister(@RequestBody SignupDTO signup){
+    public void companyRegister(@Valid @RequestBody SignupDTO signup){
         userService.companyRegister(signup);
+    }
+
+    // 아이디(이메일) 중복체크
+    @GetMapping("/users/validate-duplicate")
+    @ApiOperation(value = "유저 이메일 중복체크", notes = "이메일 중복체크를 한다.")
+    public String validateDuplicate(@RequestParam String email){
+        if(userService.validateDuplicate(email)) return "duplicated";
+        return "unduplicated";
     }
 
     // 로그인 (swagger 명세용)
@@ -90,10 +106,10 @@ public class UserController {
     }
 
     // 회원 정보 조회
-    @GetMapping("/users/{userID}")
+    @GetMapping("/users/{useremail}")
     @ApiOperation(value = "회원 정보 조회", notes = "회원 정보를 조회한다.")
-    public UserInfoDTO getUserInfo(@PathVariable Long userID){
-        return userService.getUserInfo(userID);
+    public UserInfoDTO getUserInfo(@PathVariable String useremail){
+        return userService.getUserInfo(useremail);
     }
 
     // 회원 탈퇴

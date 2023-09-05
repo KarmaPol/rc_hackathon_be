@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -40,13 +42,13 @@ public class UserService {
     }
 
     public void fixUserInfo(UserFixDTO userFixDTO, Long userID) {
-        Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저"));
+        Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
 
         findUser.changeUserInfo(userFixDTO.getName(),userFixDTO.getEmail(),userFixDTO.getPassword(), userFixDTO.getPhoneNumber());
     }
 
-    public UserInfoDTO getUserInfo(Long userID) {
-        Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저"));
+    public UserInfoDTO getUserInfo(String useremail) {
+        Users findUser = userRepository.findByEmail(useremail).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
 
         UserInfoDTO userInfo = UserInfoDTO.builder().name(findUser.getName()).email(findUser.getEmail()).phoneNumber(findUser.getPhoneNumber()).build();
 
@@ -54,8 +56,13 @@ public class UserService {
     }
 
     public void userquit(Long userID) {
-        Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저"));
+        Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
 
         findUser.setStatus("회원 탈퇴");
+    }
+
+    public boolean validateDuplicate(String email) {
+        Optional<Users> byEmail = userRepository.findByEmail(email);
+        return byEmail.isPresent();
     }
 }
