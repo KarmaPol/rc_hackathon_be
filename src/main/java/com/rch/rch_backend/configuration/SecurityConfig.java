@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .antMatchers("/users/sign-in", "/users/sign-up","/users/sign-out", "/users/company/sign-in").permitAll()
+                        .antMatchers("/","/users/sign-in", "/users/sign-up","/users/sign-out", "/users/company/sign-in").permitAll()
                         .antMatchers("/posts/{posting-id}/likes/**").permitAll()
                         .antMatchers(HttpMethod.GET, "/posts").permitAll()
                         .antMatchers("/h2-console/**").permitAll()
@@ -74,7 +74,7 @@ public class SecurityConfig {
                         })))
                 .exceptionHandling(e -> {
                         e.accessDeniedHandler(new Http403Handler(new ObjectMapper()));
-//                        e.authenticationEntryPoint(new Http401Handler(new ObjectMapper()));
+                        e.authenticationEntryPoint(new Http401Handler(new ObjectMapper()));
                     }
                 )
         ;

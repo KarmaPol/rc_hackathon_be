@@ -106,9 +106,9 @@ public class UserController {
     }
 
     // 회원 정보 조회
-    @GetMapping("/users/{useremail}")
+    @GetMapping("/users/userinfo")
     @ApiOperation(value = "회원 정보 조회", notes = "회원 정보를 조회한다.")
-    public UserInfoDTO getUserInfo(@PathVariable String useremail){
+    public UserInfoDTO getUserInfo(@RequestParam String useremail){
         return userService.getUserInfo(useremail);
     }
 
