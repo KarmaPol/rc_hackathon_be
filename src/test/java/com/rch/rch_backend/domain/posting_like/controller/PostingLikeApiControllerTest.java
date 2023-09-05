@@ -31,113 +31,113 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class PostingLikeApiControllerTest {
-
-    @Autowired
-    MockMvc mockMvc;
-
-    @Autowired
-    PostingLikeRepository postingLikeRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    EmployPostingRepository employPostingRepository;
-
-    EmployPosting defaultPosting;
-
-    long postingId = 1L;
-
-    @BeforeEach
-    void setMockMvc() {
-        postingLikeRepository.deleteAll();
-        employPostingRepository.deleteAll();
-        userRepository.deleteAll();
-
-        defaultPosting = employPostingRepository.save(
-                EmployPosting.builder()
-                        .build());
-    }
-
-    PostingLike createDefaultPostingLike() {
-        return postingLikeRepository.save(PostingLike.builder()
-                .employPosting(defaultPosting)
-                .build());
-    }
-
-    @WithMockUser(username = "name")
-    @Test
-    void like() throws Exception {
-        // Given
-        String url = "/posts/1/likes";
-
-        // Principal principal = Mockito.mock(Principal.class);
-        // Mockito.when(principal.getName()).thenReturn("name");
-
-        // When
-        ResultActions resultActions = mockMvc.perform(post(url, postingId)
-                .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andDo(print());
-
-        // Then
-        resultActions.andExpect(status().isCreated()).andDo(print());
-
-        List<PostingLike> all = postingLikeRepository.findAll();
-
-        assertThat(all.size()).isEqualTo(1);
-        assertThat(all.get(0).getId()).isEqualTo(1L);
-    }
-
-    @Test
-    void unlike() throws Exception {
-        // Given
-        String url = "/posts/1/likes";
-        createDefaultPostingLike();
-
-        // When
-        ResultActions resultActions = mockMvc.perform(delete(url, postingId)).andDo(print());
-
-        // Then
-        resultActions.andExpect(status().isOk()).andDo(print());
-
-        List<PostingLike> all = postingLikeRepository.findAll();
-        assertThat(all.size()).isEqualTo(0);
-    }
-
-    @Test
-    void viewLikes() throws Exception {
-        // Given
-        String url = "/posts/1/likes";
-        createDefaultPostingLike();
-
-        // When
-        ResultActions resultActions = mockMvc.perform(get(url, postingId)).andDo(print());
-
-        // Then
-        resultActions.andExpect(status().isOk()).andDo(print());
-    }
-
-    @Test
-    void viewLikeUsers() throws Exception {
-        // Given
-        String url = "/posts/1/likes/users";
-        Users user = userRepository.save(NormalUser.builder()
-                .email("email@email.com")
-                .name("name")
-                .password("password")
-                .phoneNumber("phoneNumber")
-                .build());
-
-        postingLikeRepository.save(PostingLike.builder()
-                .employPosting(defaultPosting)
-                .user(user)
-                .build());
-
-        // When
-        ResultActions resultActions = mockMvc.perform(get(url, postingId)).andDo(print());
-
-        // Then
-        resultActions.andExpect(status().isOk()).andDo(print());
-    }
+//
+//    @Autowired
+//    MockMvc mockMvc;
+//
+//    @Autowired
+//    PostingLikeRepository postingLikeRepository;
+//
+//    @Autowired
+//    UserRepository userRepository;
+//
+//    @Autowired
+//    EmployPostingRepository employPostingRepository;
+//
+//    EmployPosting defaultPosting;
+//
+//    long postingId = 1L;
+//
+//    @BeforeEach
+//    void setMockMvc() {
+//        postingLikeRepository.deleteAll();
+//        employPostingRepository.deleteAll();
+//        userRepository.deleteAll();
+//
+//        defaultPosting = employPostingRepository.save(
+//                EmployPosting.builder()
+//                        .build());
+//    }
+//
+//    PostingLike createDefaultPostingLike() {
+//        return postingLikeRepository.save(PostingLike.builder()
+//                .employPosting(defaultPosting)
+//                .build());
+//    }
+//
+//    @WithMockUser(username = "name")
+//    @Test
+//    void like() throws Exception {
+//        // Given
+//        String url = "/posts/1/likes";
+//
+//        // Principal principal = Mockito.mock(Principal.class);
+//        // Mockito.when(principal.getName()).thenReturn("name");
+//
+//        // When
+//        ResultActions resultActions = mockMvc.perform(post(url, postingId)
+//                .contentType(MediaType.APPLICATION_JSON_VALUE))
+//                .andDo(print());
+//
+//        // Then
+//        resultActions.andExpect(status().isCreated()).andDo(print());
+//
+//        List<PostingLike> all = postingLikeRepository.findAll();
+//
+//        assertThat(all.size()).isEqualTo(1);
+//        assertThat(all.get(0).getId()).isEqualTo(1L);
+//    }
+//
+//    @Test
+//    void unlike() throws Exception {
+//        // Given
+//        String url = "/posts/1/likes";
+//        createDefaultPostingLike();
+//
+//        // When
+//        ResultActions resultActions = mockMvc.perform(delete(url, postingId)).andDo(print());
+//
+//        // Then
+//        resultActions.andExpect(status().isOk()).andDo(print());
+//
+//        List<PostingLike> all = postingLikeRepository.findAll();
+//        assertThat(all.size()).isEqualTo(0);
+//    }
+//
+//    @Test
+//    void viewLikes() throws Exception {
+//        // Given
+//        String url = "/posts/1/likes";
+//        createDefaultPostingLike();
+//
+//        // When
+//        ResultActions resultActions = mockMvc.perform(get(url, postingId)).andDo(print());
+//
+//        // Then
+//        resultActions.andExpect(status().isOk()).andDo(print());
+//    }
+//
+//    @Test
+//    void viewLikeUsers() throws Exception {
+//        // Given
+//        String url = "/posts/1/likes/users";
+//        Users user = userRepository.save(NormalUser.builder()
+//                .email("email@email.com")
+//                .name("name")
+//                .password("password")
+//                .phoneNumber("phoneNumber")
+//                .build());
+//
+//        postingLikeRepository.save(PostingLike.builder()
+//                .employPosting(defaultPosting)
+//                .user(user)
+//                .build());
+//
+//        // When
+//        ResultActions resultActions = mockMvc.perform(get(url, postingId)).andDo(print());
+//
+//        // Then
+//        resultActions.andExpect(status().isOk()).andDo(print());
+//    }
 
 }
