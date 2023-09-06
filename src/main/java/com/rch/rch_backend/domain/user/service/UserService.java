@@ -50,7 +50,10 @@ public class UserService {
     public void fixUserInfo(UserFixDTO userFixDTO, Long userID) {
         Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
 
-        findUser.changeUserInfo(userFixDTO.getName(),userFixDTO.getEmail(),userFixDTO.getPassword(), userFixDTO.getPhoneNumber());
+        String normalPw = userFixDTO.getPassword();
+        String encodedPw = passwordEncoder.encode(normalPw);
+
+        findUser.changeUserInfo(userFixDTO.getName(),userFixDTO.getEmail(),encodedPw, userFixDTO.getPhoneNumber());
     }
 
     public UserInfoDTO getUserInfo(String useremail) {
