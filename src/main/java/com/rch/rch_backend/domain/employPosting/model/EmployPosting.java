@@ -4,6 +4,7 @@ import com.rch.rch_backend.domain.common.BaseEntity;
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
 import com.rch.rch_backend.domain.posting_like.model.PostingLike;
 import com.rch.rch_backend.domain.user.model.CompanyUser;
+import com.rch.rch_backend.domain.user.model.Users;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,7 +35,7 @@ public class EmployPosting extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id") // 외래키를 설정
-    private CompanyUser companyUser;
+    private Users user;
 
     @OneToMany(mappedBy = "employPosting")
     private List<PostingLike> postingLikes;

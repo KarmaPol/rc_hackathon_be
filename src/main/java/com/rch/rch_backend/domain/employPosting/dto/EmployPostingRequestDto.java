@@ -1,9 +1,5 @@
 package com.rch.rch_backend.domain.employPosting.dto;
 
-import com.rch.rch_backend.domain.apply.model.Apply;
-import com.rch.rch_backend.domain.apply.model.ApplyStatus;
-import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
-import com.rch.rch_backend.domain.user.model.CompanyUser;
 import lombok.*;
 
 import java.time.LocalDateTime;
