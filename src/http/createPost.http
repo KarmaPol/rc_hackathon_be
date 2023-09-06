@@ -1,0 +1,12 @@
+POST http://localhost:8080/posts
+Content-Type: application/json
+
+{
+  "postingName": "클라우드 플랫폼1",
+  "region": "서울1",
+  "jobGroup": "개발1",
+  "content": "주요업무 - Mulesoft 운영 및 개발 (삼성전자 프로젝트)1",
+  "techStack": "Java1",
+  "wage": 20000001,
+  "deadLine": "2023-09-16T12:00:00"
+}

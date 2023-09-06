@@ -1,26 +1,19 @@
 package com.rch.rch_backend.domain.employPosting.service;
 
-import com.rch.rch_backend.domain.apply.dto.ApplyListResponseDto;
-import com.rch.rch_backend.domain.apply.model.Apply;
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingRequestDto;
 import com.rch.rch_backend.domain.employPosting.dto.EmployPostingResponseDto;
 import com.rch.rch_backend.domain.employPosting.model.EmployPosting;
 import com.rch.rch_backend.domain.employPosting.repository.EmployPostingRepository;
-import com.rch.rch_backend.domain.user.model.CompanyUser;
 import com.rch.rch_backend.domain.user.model.Users;
 import com.rch.rch_backend.domain.user.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -126,7 +119,6 @@ public class EmployPostingServiceImpl implements EmployPositngService {
     }
 
     @Override
-    @PreAuthorize("hasRole('ROLE_COMPANYUSER')")
     public List<EmployPostingResponseDto> getAllPostings() {
         List<EmployPosting> postings = employPostingRepository.findAll();
         return postings.stream()
@@ -136,7 +128,6 @@ public class EmployPostingServiceImpl implements EmployPositngService {
 
 
     @Override
-    @PreAuthorize("hasRole('ROLE_COMPANYUSER')")
     public EmployPostingResponseDto getEmployPostingById(Long postingId) {
         EmployPosting posting = employPostingRepository.findById(postingId)
                 .orElseThrow(() -> new EntityNotFoundException("해당하는 게시물을 찾을 수 없습니다."));
