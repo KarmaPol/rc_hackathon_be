@@ -27,6 +27,9 @@ public class UserService {
         String normalPw = signup.getPassword();
         String encodedPw = passwordEncoder.encode(normalPw);
 
+        if(validateDuplicate(signup.getEmail()))
+            throw new UsernameNotFoundException("이미 가입된 이메일입니다.");
+
         NormalUser signupUser = NormalUser.builder().name(signup.getName()).email(signup.getEmail()).password(encodedPw).phoneNumber(signup.getPhoneNumber()).build();
 
         userRepository.save(signupUser);
@@ -35,6 +38,9 @@ public class UserService {
     public void companyRegister(SignupDTO signup) {
         String normalPw = signup.getPassword();
         String encodedPw = passwordEncoder.encode(normalPw);
+
+        if(validateDuplicate(signup.getEmail()))
+            throw new UsernameNotFoundException("이미 가입된 이메일입니다.");
 
         CompanyUser signupUser = CompanyUser.builder().name(signup.getName()).email(signup.getEmail()).password(encodedPw).phoneNumber(signup.getPhoneNumber()).build();
 
