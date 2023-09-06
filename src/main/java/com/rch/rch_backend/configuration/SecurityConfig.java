@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .antMatchers("/","/users/sign-in", "/users/sign-up","/users/sign-out", "/users/company/sign-in","/users/validate-duplicate").permitAll()
+                        .antMatchers("/","/users/sign-in", "/users/sign-up","/users/sign-out","/users/companies/sign-up", "/users/company/sign-in","/users/validate-duplicate").permitAll()
                         .antMatchers("/posts/{posting-id}/likes/**").permitAll()
                         .antMatchers(HttpMethod.POST, "/posts").hasRole("COMPANYUSER")
                         .antMatchers(HttpMethod.DELETE, "/posts").hasRole("COMPANYUSER")
