@@ -49,7 +49,7 @@ public class UserController {
 
     // 아이디(이메일) 중복체크
     @GetMapping("/users/validate-duplicate")
-    @ApiOperation(value = "유저 이메일 중복체크", notes = "이메일 중복체크를 한다.")
+    @ApiOperation(value = "유저 이메일 중복체크", notes = "이메일 중복시 duplicated, 중복 없을시 unduplicated 반환.")
     public String validateDuplicate(@RequestParam String email){
         if(userService.validateDuplicate(email)) return "duplicated";
         return "unduplicated";
@@ -84,7 +84,7 @@ public class UserController {
     @GetMapping("/users/sign-out")
     @ApiOperation(value = "로그아웃", notes = "로그아웃을 한다.")
     public void logout(){
-        // 스프링 시큐리티 로그인
+        // 스프링 시큐리티 로그아웃
     }
 
     // 회원 정보 수정

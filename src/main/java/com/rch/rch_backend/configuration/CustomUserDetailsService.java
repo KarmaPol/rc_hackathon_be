@@ -26,9 +26,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Users findUser = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("잘못된 ID/PW 입니다."));
+        Users findUser = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("이메일 혹은 비밀번호가 올바르지 않습니다."));
 
-        log.info(">>>>>>>>>>>>> success");
+        if(findUser.getStatus() != null)
+            throw new UsernameNotFoundException("이미 탈퇴한 회원입니다.");
 
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority(String.valueOf(findUser.getUserRoles())));

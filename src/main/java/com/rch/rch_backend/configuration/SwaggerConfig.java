@@ -27,7 +27,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("라이징캠프 해커톤 API 문서")
                 .description("라이징캠프 해커톤 백엔드 API")
-                .version("0.1")
+                .version("0.3")
                 .build();
 
     }
