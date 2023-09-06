@@ -105,11 +105,18 @@ public class UserController {
         return "foo";
     }
 
-    // 회원 정보 조회
+    // 회원 정보 조회 - email
     @GetMapping("/users/userinfo")
-    @ApiOperation(value = "회원 정보 조회", notes = "회원 정보를 조회한다.")
+    @ApiOperation(value = "회원 정보 조회", notes = "email로 회원 정보를 조회한다.")
     public UserInfoDTO getUserInfo(@RequestParam String useremail){
         return userService.getUserInfo(useremail);
+    }
+
+    // 회원 정보 조회 - userid
+    @GetMapping("/users/userinfoByID")
+    @ApiOperation(value = "회원 정보 조회", notes = "userId로 회원 정보를 조회한다.")
+    public UserInfoDTO getUserInfoById(@RequestParam Long userId){
+        return userService.getUserInfoId(userId);
     }
 
     // 회원 탈퇴

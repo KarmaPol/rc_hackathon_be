@@ -61,6 +61,14 @@ public class UserService {
         return userInfo;
     }
 
+    public UserInfoDTO getUserInfoId(Long userId) {
+        Users findUser = userRepository.findById(userId).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
+
+        UserInfoDTO userInfo = UserInfoDTO.builder().name(findUser.getName()).email(findUser.getEmail()).phoneNumber(findUser.getPhoneNumber()).build();
+
+        return userInfo;
+    }
+
     public void userquit(Long userID) {
         Users findUser = userRepository.findById(userID).orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다."));
 
@@ -71,4 +79,6 @@ public class UserService {
         Optional<Users> byEmail = userRepository.findByEmail(email);
         return byEmail.isPresent();
     }
+
+
 }
