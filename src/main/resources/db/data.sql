@@ -28,5 +28,25 @@ VALUES
     ('Tech Leader', '대구', '개발', '주요업무 - 인프라 관리 및 운영', 'Docker', 3000000, '2023-09-20 12:00:00');
 
 
-INSERT INTO USERS (
-DTYPE, USER_ID, EMAIL, PASSWORD, USER_ROLES) values ('NormalUser', 9999999, 'admin', '$2a$10$FF.wng7H3/bSzyZtJCYnPeSQwMyvT22NGnV2FMnPnl8DFTObVg1xm', 'ROLE_ADMIN');
+INSERT INTO USERS (DTYPE, USER_ID, EMAIL, PASSWORD, NAME, USER_ROLES)
+values
+    ('NormalUser', 9999999, 'admin', '$2a$10$FF.wng7H3/bSzyZtJCYnPeSQwMyvT22NGnV2FMnPnl8DFTObVg1xm', 'admin','ROLE_ADMIN'),
+    ('NormalUser', 1, 'NormalUser1', '$2a$10$FF.wng7H3/bSzyZtJCYnPeSQwMyvT22NGnV2FMnPnl8DFTObVg1xm', 'NormalUser1','ROLE_ADMIN'),
+    ('NormalUser', 2, 'NormalUser2', '$2a$10$FF.wng7H3/bSzyZtJCYnPeSQwMyvT22NGnV2FMnPnl8DFTObVg1xm', 'NormalUser2','ROLE_ADMIN');
+
+INSERT INTO POSTING_LIKE (POSTING_ID, USER_ID)
+VALUES
+    (1, 1),
+    (1, 2),
+    (2, 1),
+    (2, 2),
+    (3, 1),
+    (3, 2),
+    (4, 1),
+    (4, 2),
+    (5, 1),
+    (5, 2),
+    (6, 1),
+    (6, 2),
+    (7, 1),
+    (7, 2);
