@@ -1,5 +1,6 @@
 package com.rch.rch_backend.domain.posting_like.controller;
 
+import com.rch.rch_backend.domain.posting_like.dto.PostingLikeCountResponse;
 import com.rch.rch_backend.domain.posting_like.dto.PostingLikeListResponse;
 import com.rch.rch_backend.domain.posting_like.service.PostingLikeService;
 import io.swagger.annotations.Api;
@@ -41,12 +42,12 @@ public class PostingLikeApiController {
 
     @GetMapping
     @ApiOperation(value = "채용 정보 좋아요 수 집계", notes = "특정 채용 정보가 받은 좋아요 수를 집계한다.")
-    public ResponseEntity<Integer> viewLikes(@PathVariable(name = "posting-id") Long postingId) {
+    public ResponseEntity<PostingLikeCountResponse> viewLikes(@PathVariable(name = "posting-id") Long postingId) {
 
         Integer count = postingLikeService.countLike(postingId);
 
         return ResponseEntity.ok()
-                .body(count);
+                .body(new PostingLikeCountResponse(count));
     }
 
     @GetMapping("/users")

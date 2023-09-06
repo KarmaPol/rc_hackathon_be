@@ -11,6 +11,7 @@ import com.rch.rch_backend.domain.user.model.NormalUser;
 import com.rch.rch_backend.domain.user.model.Users;
 import com.rch.rch_backend.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,24 +27,14 @@ public class ApplyService {
 
     private final ApplyRepository applyRepository;
     private final EmployPostingRepository employPostingRepository;
-
-    // TODO: 테스트용. 스프링 시큐리티 부분이 완성되면 모킹 객체를 없애야
     private final UserRepository userRepository;
-    NormalUser user;
-    public NormalUser forTest() {
-        return userRepository.save(NormalUser.builder()
-                .email("email@email.com")
-                .name("name")
-                .password("password")
-                .phoneNumber("phoneNumber")
-                .build());
-    }
 
     @Transactional
     public Long save(Long employPostingId, ApplySaveRequestDto requestDto) {
-        //Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        // TODO: 테스트용. 스프링 시큐리티 부분이 완성되면 모킹 객체를 없애야
-        user = forTest();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Users user = userRepository.findByEmail(email).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 회원입니다."));
 
         EmployPosting posting = employPostingRepository.findById(employPostingId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 공고입니다."));
@@ -67,9 +58,10 @@ public class ApplyService {
     }
 
     public List<ApplyListResponseDto> findApplies() {
-        // Users user = (Users) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        // TODO: 테스트용. 스프링 시큐리티 부분이 완성되면 모킹 객체를 없애야
-        user = forTest();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        Users user = userRepository.findByEmail(email).orElseThrow(() ->
+                new IllegalArgumentException("존재하지 않는 회원입니다."));
 
         return applyRepository.findAllByUser(user)
                 .stream().map(ApplyListResponseDto::new)
