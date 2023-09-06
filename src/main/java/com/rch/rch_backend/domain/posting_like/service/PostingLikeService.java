@@ -35,6 +35,9 @@ public class PostingLikeService {
         Users user = userRepository.findByEmail(email).orElseThrow(() ->
                 new IllegalArgumentException("존재하지 않는 회원입니다."));
 
+        postingLikeRepository.findByEmployPostingAndUser(posting, user)
+                    .ifPresent(p -> new IllegalStateException("이미 좋아요를 눌렀습니다."));
+
         PostingLike like = PostingLike.builder()
                 .employPosting(posting)
                 .user(user).build();
