@@ -42,9 +42,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .antMatchers("/","/users/sign-in", "/users/sign-up","/users/sign-out", "/users/company/sign-in").permitAll()
                         .antMatchers("/posts/{posting-id}/likes/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/posts").permitAll()
+                        .antMatchers(HttpMethod.GET, "/posts").hasRole("COMPANYUSER")
                         .antMatchers("/h2-console/**").permitAll()
-                        .antMatchers(HttpMethod.GET, "/posts/{postingId}").permitAll()
+                        .antMatchers(HttpMethod.GET, "/posts/{postingId}").hasRole("COMPANYUSER")
                         .anyRequest().authenticated())
                 .formLogin(login -> login
                         .loginProcessingUrl("/users/sign-in") // 백 url
