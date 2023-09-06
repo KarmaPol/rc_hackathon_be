@@ -42,8 +42,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .antMatchers("/","/users/sign-in", "/users/sign-up","/users/sign-out","/users/companies/sign-up", "/users/company/sign-in","/users/validate-duplicate").permitAll()
                         .antMatchers("/posts/{posting-id}/likes/**").permitAll()
+                        .antMatchers(HttpMethod.GET, "/posts").permitAll()
                         .antMatchers(HttpMethod.POST, "/posts").hasRole("COMPANYUSER")
-                        .antMatchers(HttpMethod.DELETE, "/posts").hasRole("COMPANYUSER")
+                        .antMatchers(HttpMethod.GET, "/posts/{postingId}").permitAll()
+                        .antMatchers(HttpMethod.PATCH, "/posts/{postingId}").hasRole("COMPANYUSER")
+                        .antMatchers(HttpMethod.DELETE, "/posts/{postingId}").hasRole("COMPANYUSER")
                         .antMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(login -> login

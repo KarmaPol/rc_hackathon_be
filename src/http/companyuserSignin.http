@@ -1,0 +1,4 @@
+POST http://localhost:8080/users/sign-in
+Content-Type: application/x-www-form-urlencoded
+
+username=companyTest@test.com&password=1234

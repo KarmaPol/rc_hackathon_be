@@ -1,0 +1,9 @@
+POST http://localhost:8080/users/companies/sign-up
+Content-Type: application/json
+
+{
+  "name": "kim",
+  "password": "1234",
+  "phoneNumber": "01012341234",
+  "email": "companyTest@test.com"
+}
